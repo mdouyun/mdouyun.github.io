@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Hello World｜mdou&#39;s blog
+        iptables｜mdou&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://mdouyun.github.io/2018/06/04/hello-world/">
+    <link rel="canonical" href="http://mdouyun.github.io/2018/06/06/iptables/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -137,14 +137,13 @@
 <!--only post-->
 
 
-<img class="wechat-title-img"
-     src="http://p9ubnwfjc.bkt.clouddn.com/lion-blur-bg.jpg">
+<img class="wechat-title-img" src="http://p9ubnwfjc.bkt.clouddn.com/lion-blur-bg.jpg">
 
 
 <style>
     
     header.intro-header {
-        background-image: url('http://p9ubnwfjc.bkt.clouddn.com/lion-blur-bg.jpg')
+        background-image: url('http://p9ubnwfjc.bkt.clouddn.com/lion-blur-bg.jpg');
     }
 
     
@@ -155,18 +154,18 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>Hello World</h1>
+                    <h1>iptables</h1>
                     
                     <span class="meta">
                          作者 chris.Yun
                         <span>
-                          日期 2018-06-04
+                          日期 2018-06-06
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#markdown"
-                           title="markdown">markdown</a>
+                        <a class="tag" href="/tags/#linux"
+                           title="linux">linux</a>
                         
                     </div>
                 </div>
@@ -175,7 +174,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            Hello World
+            iptables
         </span>
     </div>
 </header>
@@ -186,16 +185,107 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+                <p>云主机设置防火墙的时候需要用到iptables命令，正好自己不是很熟悉，网上学习了一番，顺便做一个总结。</p>
+<p>iptables是一个命令行工具，操作人员通过iptables命令将防火墙配置设定到真正的安全框架<strong>Netfilter</strong>中。Netfilter是Linux 2.4.x引入的一个子系统，Netfilter提供的是一套HOOK框架，其优势是易于扩充。</p>
+<h3 id="链-Chain"><a href="#链-Chain" class="headerlink" title="链 Chain"></a>链 Chain</h3><p>Netfilter在IPv4协议中定义了5个HOOK函数，这些钩子函数在数据报流过协议栈的5个关键点被调用。iptables利用这些HOOK将其对应到规则链表中，对消息数据进行规则匹配及筛选。</p>
+<p><img src="./iptables.jpg" alt="iptables"></p>
+<h4 id="PREROUTING"><a href="#PREROUTING" class="headerlink" title="PREROUTING"></a>PREROUTING</h4><p>所有发给主机的报文先被该链处理。</p>
+<h4 id="INPUT"><a href="#INPUT" class="headerlink" title="INPUT"></a>INPUT</h4><p>目的地为本机的报文经过PREROUTING后，被该链处理。PREROUTING -&gt; INPUT -&gt; 应用。<br>通常我们设置的防火墙规则都是在这个链上。</p>
+<h4 id="OUTPUT"><a href="#OUTPUT" class="headerlink" title="OUTPUT"></a>OUTPUT</h4><p>本机发出的报文先被该链处理。</p>
+<h4 id="FORWARD"><a href="#FORWARD" class="headerlink" title="FORWARD"></a>FORWARD</h4><p>本机转发的报文经过PREROUTING后，被该链处理。PREROUTING -&gt; FORWARD -&gt; POSTROUTING。</p>
+<h4 id="POSTROUTING"><a href="#POSTROUTING" class="headerlink" title="POSTROUTING"></a>POSTROUTING</h4><p>报文（本机或非本机）在离开主机之前，最后被该链处理。</p>
+<h3 id="表-table"><a href="#表-table" class="headerlink" title="表 table"></a>表 table</h3><p>将具有相同功能的规则集合叫做”表”，iptables定义了四种表，也就意味着我们定义的规则都在这四个分类中。</p>
+<h4 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h4><p>负责过滤、防火墙功能。</p>
+<h4 id="nat"><a href="#nat" class="headerlink" title="nat"></a>nat</h4><p>负责网络地址转换功能。</p>
+<h4 id="mangle"><a href="#mangle" class="headerlink" title="mangle"></a>mangle</h4><p>负责拆解报文、修改报文、重新封装报文的功能。</p>
+<h4 id="raw"><a href="#raw" class="headerlink" title="raw"></a>raw</h4><p>关闭nat表上启用的连接追踪机制。</p>
+<h4 id="表链关系"><a href="#表链关系" class="headerlink" title="表链关系"></a>表链关系</h4><p>链与表的关系，执行顺序为raw -&gt; mangle -&gt; nat -&gt; filter</p>
+<ul>
+<li>PREROUTING的规则存在于：raw表、mangle表、nat表</li>
+<li>INPUT的规则存在于：mangle表、filter表（centos7中还有nat表）</li>
+<li>OUTPUT的规则存在于：raw表、mangle表、nat表、filter表</li>
+<li>FORWARD的规则存在于：mangle表、filter表</li>
+<li>POSTROUTING的规则存在于：mangle表、nat表</li>
+</ul>
+<p>表与链的关系，实际配置中更关心该关系</p>
+<ul>
+<li>raw：PREROUTING、OUTPUT</li>
+<li>mangle：PREROUTING、INPUT、FORWARD、OUTPUT、POSTROUTING</li>
+<li>nat：PREROUTING、OUTPUT、POSTROUTING（centos7中还有INPUT）</li>
+<li>filter：INPUT、FORWARD、OUTPUT</li>
+</ul>
+<p>规则的顺序很重要，排名靠前的规则先执行，如果不符合拒绝或者丢弃，则后面的规则都没有机会执行了。</p>
+<h4 id="处理动作"><a href="#处理动作" class="headerlink" title="处理动作"></a>处理动作</h4><ul>
+<li>ACCEPT：允许数据包通过</li>
+<li>DROP：直接丢弃数据包，请求方会等到超时</li>
+<li>REJECT：拒绝数据包通过，必要时会给数据的发送方一个响应</li>
+<li>SNAT：源地址转换，解决内网用户用同一个公网上网的问题</li>
+<li>MASQUERADE：是SNAT的一种特殊形式，适用于动态、临时IP</li>
+<li>DNAT：目标地址转换</li>
+<li>REDIRECT：在本机做端口映射</li>
+<li>LOG：在/var/log/messages文件中记录日志信息</li>
+</ul>
+<h3 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h3><p><strong>实际操作中设置的相关规则都是在filter表的INPUT链中。</strong></p>
+<p><img src="./iptables-command.jpg" alt="iptables-command"></p>
+<h4 id="相关规则查询"><a href="#相关规则查询" class="headerlink" title="相关规则查询"></a>相关规则查询</h4><pre><code>iptables -t filter/nat/mangle/raw -L #查询表的规则
+iptables -L INPUT #查询链的规则，省略-t默认为filter
+iptables --line -nvL #查询详细信息
+</code></pre><h4 id="规则配置"><a href="#规则配置" class="headerlink" title="规则配置"></a>规则配置</h4><pre><code># 新增
+iptables -A INPUT -p icmp -j ACCEPT
+iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+iptables -A INPUT -s 192.168.1.102 -j ACCEPT
+# -I insert头部插入 -A append尾部追加
+iptables -I INPUT -j DROP   
 
+# 删除
+iptables -t filter -D INPUT 1
+iptables -D INPUT -s 192.168.1.102 -j ACCEPT
+# 删除指定链下的所有表规则
+iptables -t 表名 -F 链名 
+
+# 修改
+iptables -t filter -R INPUT 1 -s 192.168.1.102 -j REJECT
+
+# 修改链的默认策略
+iptables -t filter -P FORWARD DROP
+</code></pre><h4 id="iptables命令"><a href="#iptables命令" class="headerlink" title="iptables命令"></a>iptables命令</h4><pre><code>service iptables save #会将配置刷到文件中，下次重启后配置还在
+service iptables restart
+</code></pre><h4 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h4><p>配置文件位置/etc/sysconfig/iptables，第一次执行save命令会生成该文件，格式如下：</p>
+<pre><code># Generated by iptables-save v1.4.7 on Wed Jun  6 04:35:36 2018
+*raw
+:PREROUTING ACCEPT [2705:175227]
+:OUTPUT ACCEPT [2150:166613]
+COMMIT
+# Completed on Wed Jun  6 04:35:36 2018
+# Generated by iptables-save v1.4.7 on Wed Jun  6 04:35:36 2018
+*nat
+:PREROUTING ACCEPT [1339:62046]
+:POSTROUTING ACCEPT [5:357]
+:OUTPUT ACCEPT [5:357]
+COMMIT
+# Completed on Wed Jun  6 04:35:36 2018
+# Generated by iptables-save v1.4.7 on Wed Jun  6 04:35:36 2018
+*mangle
+:PREROUTING ACCEPT [2705:175227]
+:INPUT ACCEPT [2705:175227]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [2150:166613]
+:POSTROUTING ACCEPT [2150:166613]
+COMMIT
+# Completed on Wed Jun  6 04:35:36 2018
+# Generated by iptables-save v1.4.7 on Wed Jun  6 04:35:36 2018
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [187:22349]
+-A INPUT -p tcp -m tcp --dport 443 -j ACCEPT 
+-A INPUT -p tcp -m tcp --dport 80 -j ACCEPT 
+-A INPUT -p tcp -m tcp --dport 28207 -j ACCEPT 
+-A INPUT -p icmp -j ACCEPT
+-A INPUT -j DROP 
+COMMIT
+# Completed on Wed Jun  6 04:35:36 2018
+</code></pre>
                 <hr>
 
                 
@@ -220,8 +310,8 @@
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#markdown"
-                           title="markdown">markdown</a>
+                        <a class="tag" href="/tags/#linux"
+                           title="linux">linux</a>
                         
                     </div>
                 </section>
@@ -259,7 +349,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#链-Chain"><span class="toc-text">链 Chain</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PREROUTING"><span class="toc-text">PREROUTING</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#INPUT"><span class="toc-text">INPUT</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#OUTPUT"><span class="toc-text">OUTPUT</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#FORWARD"><span class="toc-text">FORWARD</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#POSTROUTING"><span class="toc-text">POSTROUTING</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#表-table"><span class="toc-text">表 table</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#filter"><span class="toc-text">filter</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nat"><span class="toc-text">nat</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mangle"><span class="toc-text">mangle</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#raw"><span class="toc-text">raw</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#表链关系"><span class="toc-text">表链关系</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#处理动作"><span class="toc-text">处理动作</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命令"><span class="toc-text">命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#相关规则查询"><span class="toc-text">相关规则查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#规则配置"><span class="toc-text">规则配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#iptables命令"><span class="toc-text">iptables命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置文件"><span class="toc-text">配置文件</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
