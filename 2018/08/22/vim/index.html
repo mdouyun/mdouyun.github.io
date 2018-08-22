@@ -85,15 +85,15 @@
                     
                         
 							
-								
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
 							
 						
                     
                         
 							
-                        <li>
-                            <a href="/Tags/">Tags</a>
-                        </li>
+								
 							
 						
                     
@@ -194,15 +194,267 @@
                 <p>vim配置方案：<a href="http://bytefluent.com/vivify/" target="_blank" rel="noopener">下载地址</a></p>
 <pre><code>vim ~/.vimrc
 </code></pre><p>我的配置文件：<a href="./vimrc.txt">配置文件</a></p>
-<h2 id="标签页命令"><a href="#标签页命令" class="headerlink" title="标签页命令"></a>标签页命令</h2><p> |  ————-  | :——————-: |<br> | vim -p file1 file2 | 将多个文件使用标签打开 |<br> | :tabn/:tabp | 切换标签 |<br> | :tabnew filename | 新建标签页同时打开文件 | </p>
-<h2 id="分屏命令"><a href="#分屏命令" class="headerlink" title="分屏命令"></a>分屏命令</h2><p> |  ————-  | :——————-: |<br> | vim file1 file2 | 打开多个文件 |<br> | :n/:N | 切换文件 |<br> | vim -o file1 file2 | 水平分割窗口 |<br> | vim -O file1 file2 | 垂直分割窗口 |<br> | :qall/wall | 关闭/保存所有窗口 |<br> | :split/:sp/:vsplit/:vsp | 水平竖直分割当前窗口 |<br> | :nsplit/:nsp | 水平分割出一个n行高的窗口 |<br> | crtl + w + h/j/k/l | 窗口切换 | </p>
-<h2 id="保存命令"><a href="#保存命令" class="headerlink" title="保存命令"></a>保存命令</h2><p> |  ————-  | :——————-: |<br> | :w file | 将编辑的内容写入 file 文件，保持原有文件的内容不变（另存为） |<br> | :a,bw file | 将第 a 行至第 b 行的内容写入 file 文件 |<br> | :r file | 读取 file 文件的内容，插入当前光标所在行的后面 |<br> | :e file | 编辑新文件 file 代替原有内容 |<br> | :f file | 将当前文件重命名为 file |<br> | :f | 打印当前文件名称和状态，如文件的行数、光标所在的行号等 |<br> | :recover | 恢复文件 vim -r file | </p>
-<h2 id="移动命令"><a href="#移动命令" class="headerlink" title="移动命令"></a>移动命令</h2><p> |  ————-  | :——————-: |<br> | :n | 光标移到n行 |<br> | h/j/k/l | 左/下/上/右 |<br> | ctrl+f/b | 前后翻页 |<br> | H/M/L | 将光标移到屏幕上的起始行/屏幕中间/屏幕最后一行；2H前两行，3L倒数第三行 |<br> | 0/$ | 数字０，左移光标到本行的开始；/右移光标，到本行的末尾 |<br> | gg | 将光标定位到文件第一行起始位置 |<br> | G | 将光标定位到文件最后一行起始位置 |<br> | NG或Ngg | 将光标定位到第 N 行的起始位置 | </p>
-<h2 id="搜索命令"><a href="#搜索命令" class="headerlink" title="搜索命令"></a>搜索命令</h2><p> |  ————-  | :——————-: |<br> | <em> | 当光标停留在一个单词上，</em>键会在文件内搜索该单词，并跳转到下一处 |<br> | # | 当光标停留在一个单词上，# 在文件内搜索该单词，并跳转到上一处 |<br> | /str1 | 正向搜索字符串 str1 |<br> | n | 继续搜索，找出 str1 字符串下次出现的位置 |<br> | N | 继续搜索，找出 str1 字符串上一次出现的位置 |<br> | ?str2 | 反向搜索字符串 str2 | </p>
-<h2 id="删除命令"><a href="#删除命令" class="headerlink" title="删除命令"></a>删除命令</h2><p> |  ————-  | :——————-: |<br> | d/x | 删除行/删除单个字符 |<br> | dd | 删除光标所在行，并去除空隙 |<br> | ndd | 删除（剪切） n 行内容，并去除空隙 |<br> | nx | 删除光标所指向的往后 n 个字符（含当前） |<br> | d$ | 从当前光标起删除字符直到行的结束 |<br> | d0 | 从当前光标起删除字符直到行的开始 |<br> | J | 删除本行的回车符（CR），并和下一行合并 | </p>
-<h2 id="复制粘贴命令"><a href="#复制粘贴命令" class="headerlink" title="复制粘贴命令"></a>复制粘贴命令</h2><p> |  ————-  | :——————-: |<br> | p/P | 将缓冲区的内容粘贴到光标的后面/前面 |<br> | yy | 复制当前行到内存缓冲区 |<br> | nyy | 复制 n 行（往后）内容到内存缓冲区 | </p>
-<h2 id="撤销命令"><a href="#撤销命令" class="headerlink" title="撤销命令"></a>撤销命令</h2><p> |  ————-  | :——————-: |<br> | u | 撤消前一条命令的结果 |<br> | . | 重复最后一条修改正文的命令(执行一下是对u的撤销) |<br> | Ctrl+r | 恢复上一步被撤销的操作 | </p>
-<h2 id="正则表达式命令"><a href="#正则表达式命令" class="headerlink" title="正则表达式命令"></a>正则表达式命令</h2><pre><code>|  -------------  | :-------------------: | 
+<h2 id="标签页命令"><a href="#标签页命令" class="headerlink" title="标签页命令"></a>标签页命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vim -p file1 file2</td>
+<td style="text-align:center">将多个文件使用标签打开</td>
+</tr>
+<tr>
+<td>:tabn/:tabp</td>
+<td style="text-align:center">切换标签</td>
+</tr>
+<tr>
+<td>:tabnew filename</td>
+<td style="text-align:center">新建标签页同时打开文件</td>
+</tr>
+</tbody>
+</table>
+<h2 id="分屏命令"><a href="#分屏命令" class="headerlink" title="分屏命令"></a>分屏命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vim file1 file2</td>
+<td style="text-align:center">打开多个文件</td>
+</tr>
+<tr>
+<td>:n/:N</td>
+<td style="text-align:center">切换文件</td>
+</tr>
+<tr>
+<td>vim -o file1 file2</td>
+<td style="text-align:center">水平分割窗口</td>
+</tr>
+<tr>
+<td>vim -O file1 file2</td>
+<td style="text-align:center">垂直分割窗口</td>
+</tr>
+<tr>
+<td>:qall/wall</td>
+<td style="text-align:center">关闭/保存所有窗口</td>
+</tr>
+<tr>
+<td>:split/:sp/:vsplit/:vsp</td>
+<td style="text-align:center">水平竖直分割当前窗口</td>
+</tr>
+<tr>
+<td>:nsplit/:nsp</td>
+<td style="text-align:center">水平分割出一个n行高的窗口</td>
+</tr>
+<tr>
+<td>crtl + w + h/j/k/l</td>
+<td style="text-align:center">窗口切换</td>
+</tr>
+</tbody>
+</table>
+<h2 id="保存命令"><a href="#保存命令" class="headerlink" title="保存命令"></a>保存命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:w file</td>
+<td style="text-align:center">将编辑的内容写入 file 文件，保持原有文件的内容不变（另存为）</td>
+</tr>
+<tr>
+<td>:a,bw file</td>
+<td style="text-align:center">将第 a 行至第 b 行的内容写入 file 文件</td>
+</tr>
+<tr>
+<td>:r file</td>
+<td style="text-align:center">读取 file 文件的内容，插入当前光标所在行的后面</td>
+</tr>
+<tr>
+<td>:e file</td>
+<td style="text-align:center">编辑新文件 file 代替原有内容</td>
+</tr>
+<tr>
+<td>:f file</td>
+<td style="text-align:center">将当前文件重命名为 file</td>
+</tr>
+<tr>
+<td>:f</td>
+<td style="text-align:center">打印当前文件名称和状态，如文件的行数、光标所在的行号等</td>
+</tr>
+<tr>
+<td>:recover</td>
+<td style="text-align:center">恢复文件 vim -r file</td>
+</tr>
+</tbody>
+</table>
+<h2 id="移动命令"><a href="#移动命令" class="headerlink" title="移动命令"></a>移动命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:n</td>
+<td style="text-align:center">光标移到n行</td>
+</tr>
+<tr>
+<td>h/j/k/l</td>
+<td style="text-align:center">左/下/上/右</td>
+</tr>
+<tr>
+<td>ctrl+f/b</td>
+<td style="text-align:center">前后翻页</td>
+</tr>
+<tr>
+<td>H/M/L</td>
+<td style="text-align:center">将光标移到屏幕上的起始行/屏幕中间/屏幕最后一行；2H前两行，3L倒数第三行</td>
+</tr>
+<tr>
+<td>0/$</td>
+<td style="text-align:center">数字０，左移光标到本行的开始；/右移光标，到本行的末尾</td>
+</tr>
+<tr>
+<td>gg</td>
+<td style="text-align:center">将光标定位到文件第一行起始位置</td>
+</tr>
+<tr>
+<td>G</td>
+<td style="text-align:center">将光标定位到文件最后一行起始位置</td>
+</tr>
+<tr>
+<td>NG或Ngg</td>
+<td style="text-align:center">将光标定位到第 N 行的起始位置</td>
+</tr>
+</tbody>
+</table>
+<h2 id="搜索命令"><a href="#搜索命令" class="headerlink" title="搜索命令"></a>搜索命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>*</td>
+<td style="text-align:center">当光标停留在一个单词上，*键会在文件内搜索该单词，并跳转到下一处</td>
+</tr>
+<tr>
+<td>#</td>
+<td style="text-align:center">当光标停留在一个单词上，# 在文件内搜索该单词，并跳转到上一处</td>
+</tr>
+<tr>
+<td>/str1</td>
+<td style="text-align:center">正向搜索字符串 str1</td>
+</tr>
+<tr>
+<td>n</td>
+<td style="text-align:center">继续搜索，找出 str1 字符串下次出现的位置</td>
+</tr>
+<tr>
+<td>N</td>
+<td style="text-align:center">继续搜索，找出 str1 字符串上一次出现的位置</td>
+</tr>
+<tr>
+<td>?str2</td>
+<td style="text-align:center">反向搜索字符串 str2</td>
+</tr>
+</tbody>
+</table>
+<h2 id="删除命令"><a href="#删除命令" class="headerlink" title="删除命令"></a>删除命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>d/x</td>
+<td style="text-align:center">删除行/删除单个字符</td>
+</tr>
+<tr>
+<td>dd</td>
+<td style="text-align:center">删除光标所在行，并去除空隙</td>
+</tr>
+<tr>
+<td>ndd</td>
+<td style="text-align:center">删除（剪切） n 行内容，并去除空隙</td>
+</tr>
+<tr>
+<td>nx</td>
+<td style="text-align:center">删除光标所指向的往后 n 个字符（含当前）</td>
+</tr>
+<tr>
+<td>d$</td>
+<td style="text-align:center">从当前光标起删除字符直到行的结束</td>
+</tr>
+<tr>
+<td>d0</td>
+<td style="text-align:center">从当前光标起删除字符直到行的开始</td>
+</tr>
+<tr>
+<td>J</td>
+<td style="text-align:center">删除本行的回车符（CR），并和下一行合并</td>
+</tr>
+</tbody>
+</table>
+<h2 id="复制粘贴命令"><a href="#复制粘贴命令" class="headerlink" title="复制粘贴命令"></a>复制粘贴命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>p/P</td>
+<td style="text-align:center">将缓冲区的内容粘贴到光标的后面/前面</td>
+</tr>
+<tr>
+<td>yy</td>
+<td style="text-align:center">复制当前行到内存缓冲区</td>
+</tr>
+<tr>
+<td>nyy</td>
+<td style="text-align:center">复制 n 行（往后）内容到内存缓冲区</td>
+</tr>
+</tbody>
+</table>
+<h2 id="撤销命令"><a href="#撤销命令" class="headerlink" title="撤销命令"></a>撤销命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>u</td>
+<td style="text-align:center">撤消前一条命令的结果</td>
+</tr>
+<tr>
+<td>.</td>
+<td style="text-align:center">重复最后一条修改正文的命令(执行一下是对u的撤销)</td>
+</tr>
+<tr>
+<td>Ctrl+r</td>
+<td style="text-align:center">恢复上一步被撤销的操作</td>
+</tr>
+</tbody>
+</table>
+<h2 id="正则表达式命令"><a href="#正则表达式命令" class="headerlink" title="正则表达式命令"></a>正则表达式命令</h2><pre><code>|  -------------  |:-------------------:| 
 | ^ | 放在字符串前面，匹配行首的字 | 
 | $ | 放在字符串后面，匹配行尾的字 | 
 | \&lt; | 匹配一个字的字头 | 
@@ -225,7 +477,44 @@
 | :g/\%(^\1$\n\)\@&lt;=\(.*\)$/d | 删除连续相同的行，保留最开始一行 | 
 | :g/^\s*$\n\s*$/d | 删除连续多个空行，只保留一行空行 | 
 | :5,20s/^#//g | 删除5到20行开头的 # 注释 通过替换达到删除的目的 | 
-</code></pre><h2 id="全局设置"><a href="#全局设置" class="headerlink" title="全局设置"></a>全局设置</h2><p> |  ————-  | :——————-: |<br> | :set option | 设置选项 option |<br> | autoindent | 设置该选项，则正文自动缩进 |<br> | ignorecase | 设置该选项，则忽略规则表达式中大小写字母的区别 |<br> | number | 设置该选项，则显示正文行号 |<br> | ruler | 设置该选项，则在屏幕底部显示光标所在行、列的位置 |<br> | tabstop | 设置按 Tab 键跳过的空格数。例如 :set tabstop=n，n 默认值为8 |<br> | mk | 将选项保存在当前目录的 .exrc 文件中 | </p>
+</code></pre><h2 id="全局设置"><a href="#全局设置" class="headerlink" title="全局设置"></a>全局设置</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:set option</td>
+<td style="text-align:center">设置选项 option</td>
+</tr>
+<tr>
+<td>autoindent</td>
+<td style="text-align:center">设置该选项，则正文自动缩进</td>
+</tr>
+<tr>
+<td>ignorecase</td>
+<td style="text-align:center">设置该选项，则忽略规则表达式中大小写字母的区别</td>
+</tr>
+<tr>
+<td>number</td>
+<td style="text-align:center">设置该选项，则显示正文行号</td>
+</tr>
+<tr>
+<td>ruler</td>
+<td style="text-align:center">设置该选项，则在屏幕底部显示光标所在行、列的位置</td>
+</tr>
+<tr>
+<td>tabstop</td>
+<td style="text-align:center">设置按 Tab 键跳过的空格数。例如 :set tabstop=n，n 默认值为8</td>
+</tr>
+<tr>
+<td>mk</td>
+<td style="text-align:center">将选项保存在当前目录的 .exrc 文件中</td>
+</tr>
+</tbody>
+</table>
 
                 <hr>
 
