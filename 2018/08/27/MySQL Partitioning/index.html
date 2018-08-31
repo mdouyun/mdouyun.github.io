@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        待产准备物品｜mdou&#39;s blog
+        MySQL分区｜mdou&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://mdouyun.github.io/2018/06/25/predelivery/">
+    <link rel="canonical" href="http://mdouyun.github.io/2018/08/27/MySQL Partitioning/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -143,14 +143,13 @@
 <!--only post-->
 
 
-<img class="wechat-title-img"
-     src="http://p9ubnwfjc.bkt.clouddn.com/lion-blur-bg.jpg">
+<img class="wechat-title-img" src="http://p9ubnwfjc.bkt.clouddn.com/lion-blur-bg.jpg">
 
 
 <style>
     
     header.intro-header {
-        background-image: url('http://p9ubnwfjc.bkt.clouddn.com/lion-blur-bg.jpg')
+        background-image: url('http://p9ubnwfjc.bkt.clouddn.com/lion-blur-bg.jpg');
     }
 
     
@@ -161,18 +160,21 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>待产准备物品</h1>
+                    <h1>MySQL分区</h1>
                     
                     <span class="meta">
                          作者 chris.Yun
                         <span>
-                          日期 2018-06-25
+                          日期 2018-08-27
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/Tags/#待产"
-                           title="待产">待产</a>
+                        <a class="tag" href="/Tags/#db"
+                           title="db">db</a>
+                        
+                        <a class="tag" href="/Tags/#mysql"
+                           title="mysql">mysql</a>
                         
                     </div>
                 </div>
@@ -181,7 +183,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            待产准备物品
+            MySQL分区
         </span>
     </div>
 </header>
@@ -192,102 +194,85 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h2 id="麻麻de物品"><a href="#麻麻de物品" class="headerlink" title="麻麻de物品"></a>麻麻de物品</h2><h3 id="医院生产"><a href="#医院生产" class="headerlink" title="医院生产"></a>医院生产</h3><h4 id="衣服"><a href="#衣服" class="headerlink" title="衣服"></a>衣服</h4><ul>
-<li>开襟睡衣2套。棉质，最好有哺乳口，方便哺乳，品牌按照自己的喜好。</li>
-<li>常服、帽子1套。出院用，如果不纠结出院穿睡衣，可不用备。</li>
-<li>哺乳内衣4件。</li>
-<li>产后收腹带1套，分顺产收腹带及剖腹产专用绑腹带。品牌有子初、三洋，建议正常情况下不要使。</li>
-<li>拖鞋N双。具体数量看在医院陪床的人员数量。</li>
-</ul>
-<h4 id="洗漱用品"><a href="#洗漱用品" class="headerlink" title="洗漱用品"></a>洗漱用品</h4><ul>
-<li>盆子若干个。</li>
-<li>毛巾若干条。可以多备几条，有些用完可以丢掉。</li>
-<li>热水瓶1个。有些医院提供，看自己的需求。</li>
-<li>牙刷牙膏。可以普通，也可产后专用牙刷。</li>
-<li>漱口水。剖宫产后1-2天刷牙有困难</li>
-<li>一次性水杯若干。用于产后喝水及备温水用，因为不能喝冷水。</li>
-<li>梳子1把、发圈若干。术后卧床期间长发可扎高丸子头，要不会成鸡窝。</li>
-<li>酒精棉球。清洁侧切撕裂伤口。</li>
-</ul>
-<h4 id="卫生用品"><a href="#卫生用品" class="headerlink" title="卫生用品"></a>卫生用品</h4><ul>
-<li>卫生卷纸。</li>
-<li>成人纸尿裤。产后恶露用，包大人，10片足够。</li>
-<li>子初的备产包。月子纸1提、产妇垫卫生巾3袋/1盒、女性护理湿巾60片、马桶垫（一次性）6片、产褥期护理垫10片、产褥期卫生巾（L）10片装、产褥期卫生巾（XL）8片装、防溢乳垫30片、卫生内裤（4条装）XL、卫生内裤（4条装）XXL、漱口水230ML/瓶、护脐贴10片装、洋甘菊婴儿手口柔湿巾10抽<em>3、防溢乳垫（4片装）、婴儿棉签56支（葫芦头）、待产包无纺布袋</em>1。<blockquote>
-<p>以下都包括了:</p>
+                <h2 id="水平分区-Horizontal-Partitioning"><a href="#水平分区-Horizontal-Partitioning" class="headerlink" title="水平分区 Horizontal Partitioning"></a>水平分区 Horizontal Partitioning</h2><p>MySQL5.1开始支持数据表分区了，将一大表，根据条件分割成若干个小表。</p>
+<p>分区的优点：</p>
 <ul>
-<li>一次性内裤10条左右。用完就丢，省时省力。</li>
-<li>产后卫生巾1-2包。按个人需求品牌自选。</li>
-<li>一次性成人护理垫L码2包。术后恶露需要用，推荐品牌：可靠，比子初的厚一些。</li>
-<li>溢乳垫10片。√</li>
-<li>月子纸2卷。子初。</li>
-<li>一次性马桶垫。卫生，防交叉感染，备用量看个人需求。</li>
-<li>产褥垫。一包，4片左右即可不用多，贝亲，开丽。</li>
+<li>数据文件的管理比较方便。可以针对单个分区文件进行备份、修复及删除。</li>
+<li>优化查询效率。通过查询条件限制到在某个分区范围内查询，大大减少查询的范围。</li>
+<li>并行处理。聚合函数的操作，可以在不同的分区内进行并行处理。</li>
+<li>提高磁盘的IO吞吐量。通过将分区映射到多个磁盘来提高IO。</li>
 </ul>
-</blockquote>
-</li>
-</ul>
-<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><ul>
-<li>吸管若干根。不要直的，可弯折的习惯，用于产后卧床喝水。</li>
-<li>棉签1包。术后蘸水润唇用，也可以到医院找护士姐姐借几根。</li>
-<li>柠檬1-2个。术后切片放鼻子边，减轻麻醉不适，顺产不用备。</li>
-</ul>
-<h3 id="家里"><a href="#家里" class="headerlink" title="家里"></a>家里</h3><ul>
-<li>防溢乳垫。贝亲两包（120*2），49RMB，购于京东。√</li>
-<li>成人护理垫1包。回家后恶露会持续一段时间，护理垫不用太厚。</li>
-<li>哺乳巾。外出带BB喂奶用，网易严选，轻薄透气。</li>
-<li>妈咪包。继续网易严选，外观尚可，功能区域比较多。</li>
-<li>哺乳内衣4个以上。美德乐2件，子初2件，分别购于天猫及京东，64+316RMB。√</li>
-<li>母乳存储袋，冷冻保存约3个月，冷藏保存24个小时。贝亲80ml<em>25</em>2，60RMB，购于京东。√</li>
-<li>母乳保管冰袋及玻璃瓶。美德乐冰袋+3个150ml玻璃储奶+哺乳胸罩263RMB，购于京东。√</li>
-</ul>
-<h2 id="小盆友de物品"><a href="#小盆友de物品" class="headerlink" title="小盆友de物品"></a>小盆友de物品</h2><h3 id="医院生产-1"><a href="#医院生产-1" class="headerlink" title="医院生产"></a>医院生产</h3><h4 id="衣服及毛巾"><a href="#衣服及毛巾" class="headerlink" title="衣服及毛巾"></a>衣服及毛巾</h4><ul>
-<li>包被1-2条。厚度根据孩子出生的季节来定。子初棉纱包被+棉纱盖毯，110RMB。√</li>
-<li>新生儿内衣5-6套。刚出生的宝宝推荐选用分体开襟系带衣物，不推荐套头衣物，因为弄脏的概率非常高，分体的衣服方便更换，而裤子脏的几率会更高，可以适当多备几条。</li>
-<li>新生儿毛巾2条。子初纱布手帕10条，70RMB。√</li>
-<li>浴巾1-2条。棉质软浴巾，用于宝宝洗澡后保暖吸水。子初大浴巾1个。√</li>
-<li>口水巾2-3条。用于宝宝喂奶喂水或吐奶时，防止吐脏衣物。</li>
-<li>婴儿汗巾。子初汗巾10条，30RMB。√</li>
-</ul>
-<h4 id="卫生用品-1"><a href="#卫生用品-1" class="headerlink" title="卫生用品"></a>卫生用品</h4><ul>
-<li>婴儿湿巾2-3包。用于清理宝宝便便，维达、新安怡、全棉时代、好奇等品牌，个人推荐维达，好抽、无味、厚度也够，比全棉时代便宜。</li>
-<li>婴儿干纸巾2包。用于湿巾清理后，沾干防止宝宝皮肤破溃，维达、心相印、全棉时代都可以，价位不一，按需买。</li>
-<li>婴儿棉签1盒。婴儿用葫芦形棉签，用于清理宝宝鼻腔及耳朵，防止戳伤宝宝。子初正常棉签180*4盒，16RMB。√</li>
-<li>NB纸尿裤2包。花王、大王、尤妮佳、好奇、帮宝适等，需要了解的是每个品牌都有不同等级的产品，如好奇有心钻装、铂金装、金装、银装等，价格和柔软度不一，我们买的是好奇铂金装，觉得还不错，但是也要根据宝宝体质来购买，有些宝宝会有红屁股，或者过敏。NB只有第一个月用， S码1-2个月，M码用量最大，具体看宝宝的体重、大小，按需囤货。</li>
-<li>隔尿垫1-2个。用于使用尿布时，防止宝宝尿湿床单，如果使用纸尿裤可以不备。子初100cm2个+70cm1个，68RMB。√</li>
-<li>尿布N条。棉质，透气。</li>
-<li>一次性宝宝护理垫7张。用于为宝宝更换尿布时使用，防止弄脏床单。可以不用了，使用隔尿垫。√</li>
-</ul>
-<h4 id="护理用品"><a href="#护理用品" class="headerlink" title="护理用品"></a>护理用品</h4><ul>
-<li>护臀膏1支。用于预防和治疗宝宝红屁股。英国小树苗，新生儿自用推荐，带氧化锌和VE隔绝尿液；英国sudocrem，天然无刺激，还可以防治粉刺；贝亲，正常pp护理可以用；desitin，紫色加强型。</li>
-<li>湿疹膏1支。无比滴宝贝湿疹膏，备用，用于宝宝湿疹及尿疹等。</li>
-<li>爽身粉或松花粉。现在医生不推荐在宝宝隐私部位使用爽身粉。洗澡后全身或者洗屁股后都可以用：贝亲，加州宝宝，小蜜蜂，施巴。</li>
-<li>肚脐护理盒一个，或碘伏与棉棒。</li>
-</ul>
-<h4 id="奶粉"><a href="#奶粉" class="headerlink" title="奶粉"></a>奶粉</h4><ul>
-<li>一小袋初生奶粉：奶还没下来时喝，别拆整罐，有奶后会浪费，一罐奶粉开封后别放超过一个月。剖宫产早期没有母乳，必须要备奶粉。</li>
-<li>奶瓶2个。1个喝水，1个喝奶，注意买新生儿用的，吸管的是大宝宝用，新安怡、bobo、贝亲、可么多么，据说多仿真的都没用。</li>
-</ul>
-<h3 id="家里-1"><a href="#家里-1" class="headerlink" title="家里"></a>家里</h3><ul>
-<li>干湿纸巾。可以备用一些，用量也不少，特别是月子里。</li>
-<li>婴儿车。高景观推车和轻便伞车各一辆，推车可以长时间平躺，伞车方便携带，但不能平躺时间太长，比如超过2小时。品牌：pouch，stokke，玛格罗兰Quest，gubi。</li>
-<li>安全座椅。6个月前不建议使用，6个月内建议用婴儿提篮，尽量平躺。品牌：diono，Recaro，kiddy。</li>
-<li>一次性宝宝护理垫1包。医院带剩下的就可以，不用备太多，不弄脏可以用很久。</li>
-<li>纸尿裤。<strong>NB码大约140片，只有第一个月用；S码大约440片，1-2个月用</strong>。可以囤M码。品牌：花王、尤妮佳、好奇铂金装。</li>
-<li>吸鼻器。用于清理鼻腔，如鼻腔溢奶或者涕。</li>
-<li>宝宝指甲剪。贝亲，日本药妆店购买。√</li>
-<li>婴儿床及床上用品。√</li>
-<li>吸奶器。美德乐电动双边吸奶器，618购于天猫，1035RMB。√</li>
-<li>奶嘴。<strong>1-2个月需要更换</strong>。贝亲，日本药妆店购买，ss号2个，1-3月2个，3-6月3个，6-9月2个，9月后2个。√</li>
-<li>奶瓶。贝亲，日本药妆店购买，160ml一个，240ml一个。√</li>
-<li>安抚奶嘴。按月龄买，新安怡，贝亲，nuk都不错，安抚宝宝解放妈妈乳头的神器，晚上睡觉时可以塞上。1个月内不要用，6个月后就不需要了。每天高温消毒，用完开水烫。寿命一般一个月左右。后面在买。</li>
-<li>洗澡盆。配一个洗澡网，或者澡盆里有固定的坡型即可。日康RK-3627，加大号带躺板，京东积分换，129JF。</li>
-<li>婴儿油。浴后抚触用，橄榄油亦可，品牌无所谓，别买太大可以用很久：哈罗闪，强生，derma。</li>
-</ul>
-<h4 id="玩具"><a href="#玩具" class="headerlink" title="玩具"></a>玩具</h4><ul>
-<li>拨浪鼓。</li>
-<li>床铃。澳贝，购于京东，49RMB。√</li>
-<li>爬行垫。</li>
-</ul>
+<h3 id="RANGE分区"><a href="#RANGE分区" class="headerlink" title="RANGE分区"></a>RANGE分区</h3><p>基于属于一个给定连续区间的列值，把多行分配给分区。分区区间要连续且不能相互重叠。</p>
+<pre><code>CREATE TABLE employees (
+    id INT NOT NULL,
+    fname VARCHAR(30),
+    lname VARCHAR(30),
+    hired DATE NOT NULL DEFAULT &apos;1970-01-01&apos;,
+    separated DATE NOT NULL DEFAULT &apos;9999-12-31&apos;,
+    job_code INT NOT NULL,
+    store_id INT NOT NULL
+)
+
+partition BY RANGE (store_id) (
+    partition p0 VALUES LESS THAN (6),
+    partition p1 VALUES LESS THAN (11),
+    partition p2 VALUES LESS THAN (16),
+    partition p3 VALUES LESS THAN (21),
+    partition p3 VALUES LESS THAN MAXVALUE
+);
+</code></pre><h3 id="LIST分区"><a href="#LIST分区" class="headerlink" title="LIST分区"></a>LIST分区</h3><p>类似于按RANGE分区，区别在于LIST分区是基于列值匹配一个离散值集合中的某个值来进行选择。<br>LIST分区没有类似如“VALUES LESS THAN MAXVALUE”这样的包含其他值在内的定义。将要匹配的任何值都必须在值列表中找到。</p>
+<pre><code>CREATE TABLE employees (
+    id INT NOT NULL,
+    fname VARCHAR(30),
+    lname VARCHAR(30),
+    hired DATE NOT NULL DEFAULT &apos;1970-01-01&apos;,
+    separated DATE NOT NULL DEFAULT &apos;9999-12-31&apos;,
+    job_code INT,
+    store_id INT
+)
+
+PARTITION BY LIST(store_id)
+    PARTITION pNorth VALUES IN (3,5,6,9,17),
+    PARTITION pEast VALUES IN (1,2,10,11,19,20),
+    PARTITION pWest VALUES IN (4,12,13,14,18),
+    PARTITION pCentral VALUES IN (7,8,15,16)
+);
+</code></pre><h3 id="HASH分区"><a href="#HASH分区" class="headerlink" title="HASH分区"></a>HASH分区</h3><p>基于用户定义的表达式的返回值来进行选择的分区，该表达式使用将要插入到表中的这些行的列值进行计算。这个函数可以包含MySQL中有效的、产生非负整数值的任何表达式。</p>
+<pre><code>PARTITION BY HASH (expr)，&apos;expr&apos;是一个返回一个整数的表达式，也可以是字段类型为整型的列名。
+PARTITIONS num，num是一个非负的整数，表示分区的数量，如果没有则默认为1。
+
+CREATE TABLE employees (
+    id INT NOT NULL,
+    fname VARCHAR(30),
+    lname VARCHAR(30),
+    hired DATE NOT NULL DEFAULT &apos;1970-01-01&apos;,
+    separated DATE NOT NULL DEFAULT &apos;9999-12-31&apos;,
+    job_code INT,
+    store_id INT
+)
+PARTITION BY HASH(store_id)
+PARTITIONS 4;
+</code></pre><h4 id="LINER-HASH线性哈希"><a href="#LINER-HASH线性哈希" class="headerlink" title="LINER HASH线性哈希"></a>LINER HASH线性哈希</h4><p>线性哈希功能使用的一个线性的2的幂（powers-of-two）运算法则，而常规哈希使用的是求哈希函数值的模数。<br>算法简述：</p>
+<pre><code>CREATE TABLE employees (
+    id INT NOT NULL,
+    fname VARCHAR(30),
+    lname VARCHAR(30),
+    hired DATE NOT NULL DEFAULT &apos;1970-01-01&apos;,
+    separated DATE NOT NULL DEFAULT &apos;9999-12-31&apos;,
+    job_code INT,
+    store_id INT
+)
+PARTITION BY LINEAR HASH(YEAR(hired))
+PARTITIONS 4;
+</code></pre><h3 id="KEY分区"><a href="#KEY分区" class="headerlink" title="KEY分区"></a>KEY分区</h3><p>类似于按HASH分区，区别在于KEY分区只支持计算一列或多列，且MySQL服务器提供其自身的哈希函数。必须有一列或多列包含整数值。<br>在KEY分区中使用关键字LINEAR和在HASH分区中使用具有同样的作用，分区的编号是通过2的幂（powers-of-two）算法得到，而不是通过模数算法。</p>
+<pre><code>CREATE TABLE tk (
+    col1 INT NOT NULL,
+    col2 CHAR(5),
+    col3 DATE
+)
+PARTITION BY LINEAR KEY (col1)
+PARTITIONS 3;
+</code></pre><h2 id="垂直分区-Vertical-Partitioning"><a href="#垂直分区-Vertical-Partitioning" class="headerlink" title="垂直分区 Vertical Partitioning"></a>垂直分区 Vertical Partitioning</h2><p>典型场景分库分表，根据用户或者业务维度将数据拆分到同结构的不同表中。</p>
 
                 <hr>
 
@@ -296,14 +281,14 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2018/08/14/Hive SQL/" data-toggle="tooltip" data-placement="top"
-                           title="Hive SQL">&larr; Previous Post</a>
+                        <a href="/2018/08/30/Linear Hash/" data-toggle="tooltip" data-placement="top"
+                           title="Linear Hash">&larr; Previous Post</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2018/06/06/iptables/" data-toggle="tooltip" data-placement="top"
-                           title="iptables">Next Post &rarr;</a>
+                        <a href="/2018/08/23/Mac Octave/" data-toggle="tooltip" data-placement="top"
+                           title="Mac Octave安装">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -318,8 +303,11 @@
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/Tags/#待产"
-                           title="待产">待产</a>
+                        <a class="tag" href="/Tags/#db"
+                           title="db">db</a>
+                        
+                        <a class="tag" href="/Tags/#mysql"
+                           title="mysql">mysql</a>
                         
                     </div>
                 </section>
@@ -357,7 +345,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#麻麻de物品"><span class="toc-text">麻麻de物品</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#医院生产"><span class="toc-text">医院生产</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#衣服"><span class="toc-text">衣服</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#洗漱用品"><span class="toc-text">洗漱用品</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#卫生用品"><span class="toc-text">卫生用品</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他"><span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#家里"><span class="toc-text">家里</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小盆友de物品"><span class="toc-text">小盆友de物品</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#医院生产-1"><span class="toc-text">医院生产</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#衣服及毛巾"><span class="toc-text">衣服及毛巾</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#卫生用品-1"><span class="toc-text">卫生用品</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#护理用品"><span class="toc-text">护理用品</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#奶粉"><span class="toc-text">奶粉</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#家里-1"><span class="toc-text">家里</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#玩具"><span class="toc-text">玩具</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#水平分区-Horizontal-Partitioning"><span class="toc-text">水平分区 Horizontal Partitioning</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RANGE分区"><span class="toc-text">RANGE分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LIST分区"><span class="toc-text">LIST分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HASH分区"><span class="toc-text">HASH分区</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#LINER-HASH线性哈希"><span class="toc-text">LINER HASH线性哈希</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#KEY分区"><span class="toc-text">KEY分区</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#垂直分区-Vertical-Partitioning"><span class="toc-text">垂直分区 Vertical Partitioning</span></a></li></ol>
                 </div>
             </div>
         </div>
