@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        MySQL分区｜mdou&#39;s blog
+        IntelliJ IDEA For Mac 快捷键｜mdou&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://mdouyun.github.io/2018/08/27/MySQL Partitioning/">
+    <link rel="canonical" href="http://mdouyun.github.io/2018/08/23/IDEA Mac/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -160,21 +160,18 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>MySQL分区</h1>
+                    <h1>IntelliJ IDEA For Mac 快捷键</h1>
                     
                     <span class="meta">
                          作者 chris.Yun
                         <span>
-                          日期 2018-08-27
+                          日期 2018-08-23
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/Tags/#db"
-                           title="db">db</a>
-                        
-                        <a class="tag" href="/Tags/#mysql"
-                           title="mysql">mysql</a>
+                        <a class="tag" href="/Tags/#IDEA"
+                           title="IDEA">IDEA</a>
                         
                     </div>
                 </div>
@@ -183,7 +180,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            MySQL分区
+            IntelliJ IDEA For Mac 快捷键
         </span>
     </div>
 </header>
@@ -194,85 +191,188 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h2 id="水平分区-Horizontal-Partitioning"><a href="#水平分区-Horizontal-Partitioning" class="headerlink" title="水平分区 Horizontal Partitioning"></a>水平分区 Horizontal Partitioning</h2><p>MySQL5.1开始支持数据表分区了，将一大表，根据条件分割成若干个小表。</p>
-<p>分区的优点：</p>
-<ul>
-<li>数据文件的管理比较方便。可以针对单个分区文件进行备份、修复及删除。</li>
-<li>优化查询效率。通过查询条件限制到在某个分区范围内查询，大大减少查询的范围。</li>
-<li>并行处理。聚合函数的操作，可以在不同的分区内进行并行处理。</li>
-<li>提高磁盘的IO吞吐量。通过将分区映射到多个磁盘来提高IO。</li>
-</ul>
-<h3 id="RANGE分区"><a href="#RANGE分区" class="headerlink" title="RANGE分区"></a>RANGE分区</h3><p>基于属于一个给定连续区间的列值，把多行分配给分区。分区区间要连续且不能相互重叠。</p>
-<pre><code>CREATE TABLE employees (
-    id INT NOT NULL,
-    fname VARCHAR(30),
-    lname VARCHAR(30),
-    hired DATE NOT NULL DEFAULT &apos;1970-01-01&apos;,
-    separated DATE NOT NULL DEFAULT &apos;9999-12-31&apos;,
-    job_code INT NOT NULL,
-    store_id INT NOT NULL
-)
-
-partition BY RANGE (store_id) (
-    partition p0 VALUES LESS THAN (6),
-    partition p1 VALUES LESS THAN (11),
-    partition p2 VALUES LESS THAN (16),
-    partition p3 VALUES LESS THAN (21),
-    partition p3 VALUES LESS THAN MAXVALUE
-);
-</code></pre><h3 id="LIST分区"><a href="#LIST分区" class="headerlink" title="LIST分区"></a>LIST分区</h3><p>类似于按RANGE分区，区别在于LIST分区是基于列值匹配一个离散值集合中的某个值来进行选择。<br>LIST分区没有类似如“VALUES LESS THAN MAXVALUE”这样的包含其他值在内的定义。将要匹配的任何值都必须在值列表中找到。</p>
-<pre><code>CREATE TABLE employees (
-    id INT NOT NULL,
-    fname VARCHAR(30),
-    lname VARCHAR(30),
-    hired DATE NOT NULL DEFAULT &apos;1970-01-01&apos;,
-    separated DATE NOT NULL DEFAULT &apos;9999-12-31&apos;,
-    job_code INT,
-    store_id INT
-)
-
-PARTITION BY LIST(store_id)
-    PARTITION pNorth VALUES IN (3,5,6,9,17),
-    PARTITION pEast VALUES IN (1,2,10,11,19,20),
-    PARTITION pWest VALUES IN (4,12,13,14,18),
-    PARTITION pCentral VALUES IN (7,8,15,16)
-);
-</code></pre><h3 id="HASH分区"><a href="#HASH分区" class="headerlink" title="HASH分区"></a>HASH分区</h3><p>基于用户定义的表达式的返回值来进行选择的分区，该表达式使用将要插入到表中的这些行的列值进行计算。这个函数可以包含MySQL中有效的、产生非负整数值的任何表达式。</p>
-<pre><code>PARTITION BY HASH (expr)，&apos;expr&apos;是一个返回一个整数的表达式，也可以是字段类型为整型的列名。
-PARTITIONS num，num是一个非负的整数，表示分区的数量，如果没有则默认为1。
-
-CREATE TABLE employees (
-    id INT NOT NULL,
-    fname VARCHAR(30),
-    lname VARCHAR(30),
-    hired DATE NOT NULL DEFAULT &apos;1970-01-01&apos;,
-    separated DATE NOT NULL DEFAULT &apos;9999-12-31&apos;,
-    job_code INT,
-    store_id INT
-)
-PARTITION BY HASH(store_id)
-PARTITIONS 4;
-</code></pre><h4 id="LINER-HASH线性哈希"><a href="#LINER-HASH线性哈希" class="headerlink" title="LINER HASH线性哈希"></a>LINER HASH线性哈希</h4><p>线性哈希功能使用的一个线性的2的幂（powers-of-two）运算法则，而常规哈希使用的是求哈希函数值的模数。<br>算法简述：<a href="http://mdouyun.com/2018/08/30/Linear%20Hash/" target="_blank" rel="noopener">点击这里了解</a></p>
-<pre><code>CREATE TABLE employees (
-    id INT NOT NULL,
-    fname VARCHAR(30),
-    lname VARCHAR(30),
-    hired DATE NOT NULL DEFAULT &apos;1970-01-01&apos;,
-    separated DATE NOT NULL DEFAULT &apos;9999-12-31&apos;,
-    job_code INT,
-    store_id INT
-)
-PARTITION BY LINEAR HASH(YEAR(hired))
-PARTITIONS 4;
-</code></pre><h3 id="KEY分区"><a href="#KEY分区" class="headerlink" title="KEY分区"></a>KEY分区</h3><p>类似于按HASH分区，区别在于KEY分区只支持计算一列或多列，且MySQL服务器提供其自身的哈希函数。必须有一列或多列包含整数值。<br>在KEY分区中使用关键字LINEAR和在HASH分区中使用具有同样的作用，分区的编号是通过2的幂（powers-of-two）算法得到，而不是通过模数算法。</p>
-<pre><code>CREATE TABLE tk (
-    col1 INT NOT NULL,
-    col2 CHAR(5),
-    col3 DATE
-)
-PARTITION BY LINEAR KEY (col1)
-PARTITIONS 3;
-</code></pre><h2 id="垂直分区-Vertical-Partitioning"><a href="#垂直分区-Vertical-Partitioning" class="headerlink" title="垂直分区 Vertical Partitioning"></a>垂直分区 Vertical Partitioning</h2><p>典型场景分库分表，根据用户或者业务维度将数据拆分到同结构的不同表中。</p>
+                <h2 id="Mac键盘符号和修饰键说明"><a href="#Mac键盘符号和修饰键说明" class="headerlink" title="Mac键盘符号和修饰键说明"></a>Mac键盘符号和修饰键说明</h2><table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>说明</th>
+<th>操作符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⌘</td>
+<td>Command</td>
+<td>⇧</td>
+<td>Shift</td>
+</tr>
+<tr>
+<td>⌥</td>
+<td>Option</td>
+<td>⌃</td>
+<td>Control</td>
+</tr>
+<tr>
+<td>↩︎</td>
+<td>Return/Enter</td>
+<td>⎋</td>
+<td>Esc</td>
+</tr>
+<tr>
+<td>⌫</td>
+<td>Delete</td>
+<td>⌦</td>
+<td>Fn+Delete</td>
+</tr>
+<tr>
+<td>↑</td>
+<td>上箭头</td>
+<td>↓</td>
+<td>下箭头</td>
+</tr>
+<tr>
+<td>←</td>
+<td>左箭头</td>
+<td>→</td>
+<td>右箭头</td>
+</tr>
+<tr>
+<td>⇞</td>
+<td>Page Up Fn+↑</td>
+<td>⇟</td>
+<td>Page Down Fn+↓</td>
+</tr>
+<tr>
+<td>Home</td>
+<td>Fn + ←</td>
+<td>End</td>
+<td>Fn + →</td>
+</tr>
+<tr>
+<td>⇥</td>
+<td>Tab</td>
+<td>⇤</td>
+<td>Shift+Tab</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="常用快捷键"><a href="#常用快捷键" class="headerlink" title="常用快捷键"></a>常用快捷键</h2><table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>说明</th>
+<th>操作符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⌘P</td>
+<td>显示方法的参数信息</td>
+<td>⌃Space</td>
+<td>基本的代码补全（补全任何类、方法、变量）</td>
+</tr>
+<tr>
+<td>⌘F1</td>
+<td>在错误或警告处显示具体描述信息</td>
+<td>⌘N, ⌃↩, ⌃N</td>
+<td>生成代码</td>
+</tr>
+<tr>
+<td>⌘⌥T</td>
+<td>包围代码（使用if..else, try..catch, for, synchronized等包围选中的代码）</td>
+<td>⌘/、⌘⌥/</td>
+<td>注释/取消注释与行注释</td>
+</tr>
+<tr>
+<td>⌘⌥L</td>
+<td>格式化代码</td>
+<td>⌃⌥O</td>
+<td>优化import</td>
+</tr>
+<tr>
+<td>⌘⇧U</td>
+<td>大小写切换</td>
+<td>⌘W</td>
+<td>关闭活动的编辑器选项卡</td>
+</tr>
+<tr>
+<td>⌘⇧+、⌘⇧-</td>
+<td>展开、折叠所以代码块</td>
+<td>Double ⇧</td>
+<td>查询任何东西</td>
+</tr>
+<tr>
+<td>⌘F</td>
+<td>文件内查找</td>
+<td>⌘R</td>
+<td>文件内替换</td>
+</tr>
+<tr>
+<td>⌘O</td>
+<td>查找类文件</td>
+<td>F12</td>
+<td>返回到前一个工具窗口</td>
+</tr>
+<tr>
+<td>⌘F12</td>
+<td>弹出当前文件结构层</td>
+<td>⌃H</td>
+<td>显示当前类的层次结构</td>
+</tr>
+<tr>
+<td>⌘⇧H</td>
+<td>显示方法层次结构</td>
+<td>⌃⌥H</td>
+<td>显示调用层次结构</td>
+</tr>
+<tr>
+<td>⌃⌘F</td>
+<td>切换全屏模式</td>
+<td>⌘⇧8</td>
+<td>竖编辑模式</td>
+</tr>
+<tr>
+<td>⌘⇧F12</td>
+<td>切换最大化编辑器</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="Editing-编辑"><a href="#Editing-编辑" class="headerlink" title="Editing 编辑"></a>Editing 编辑</h2><p>⌃⇧Space                  智能代码补全（过滤器方法列表和变量的预期类型）<br>⌘⇧↩                     自动结束代码，行末自动添加分号<br>⌃J, Mid. button click    快速查看文档<br>⇧F1                      查看外部文档（在某些代码上会触发打开浏览器显示相关文档）<br>⌘+鼠标放在代码上            显示代码简要信息<br>⌃O                       覆盖方法（重写父类方法）<br>⌃I                       实现方法（实现接口中的方法）<br>⌥↑ 连续选中代码块<br>⌥↓ 减少当前选中的代码块<br>⌃⇧Q 显示上下文信息<br>⌥↩ 显示意向动作和快速修复代码<br>⌃⌥I 自动缩进线<br>⇥ / ⇧⇥ 缩进代码 / 反缩进代码<br>⌘X 剪切当前行或选定的块到剪贴板<br>⌘C 复制当前行或选定的块到剪贴板<br>⌘V 从剪贴板粘贴<br>⌘⇧V 从最近的缓冲区粘贴<br>⌘D 复制当前行或选定的块<br>⌘⌫ 删除当前行或选定的块的行<br>⌃⇧J 智能的将代码拼接成一行<br>⌘↩ 智能的拆分拼接的行<br>⇧↩ 开始新的一行<br>⌘⇧] / ⌘⇧[ 选择直到代码块结束/开始<br>⌥⌦ 删除到单词的末尾（⌦键为Fn+Delete）<br>⌥⌫ 删除到单词的开头<br>⌘+ / ⌘- 展开 / 折叠代码块</p>
+<h2 id="Search-Replace-查询-替换"><a href="#Search-Replace-查询-替换" class="headerlink" title="Search/Replace 查询/替换"></a>Search/Replace 查询/替换</h2><p>⌘G 查找模式下，向下查找<br>⌘⇧G 查找模式下，向上查找<br>⌘⇧F 全局查找（根据路径）<br>⌘⇧R 全局替换（根据路径）<br>⌘⇧S 查询结构（Ultimate Edition 版专用，需要在Keymap中设置）<br>⌘⇧M 替换结构（Ultimate Edition 版专用，需要在Keymap中设置）</p>
+<h2 id="Usage-Search-使用查询"><a href="#Usage-Search-使用查询" class="headerlink" title="Usage Search 使用查询"></a>Usage Search 使用查询</h2><p>⌥F7 / ⌘F7 在文件中查找用法 / 在类中查找用法<br>⌘⇧F7 在文件中突出显示的用法<br>⌘⌥F7 显示用法</p>
+<h2 id="Compile-and-Run-编译和运行"><a href="#Compile-and-Run-编译和运行" class="headerlink" title="Compile and Run 编译和运行"></a>Compile and Run 编译和运行</h2><p>⌘F9 编译Project<br>⌘⇧F9 编译选择的文件、包或模块<br>⌃⌥R 弹出 Run 的可选择菜单<br>⌃⌥D 弹出 Debug 的可选择菜单<br>⌃R 运行<br>⌃D 调试<br>⌃⇧R, ⌃⇧D 从编辑器运行上下文环境配置</p>
+<h2 id="Debugging-调试"><a href="#Debugging-调试" class="headerlink" title="Debugging 调试"></a>Debugging 调试</h2><p>F8 进入下一步，如果当前行断点是一个方法，则不进入当前方法体内<br>F7 进入下一步，如果当前行断点是一个方法，则进入当前方法体内，如果该方法体还有方法，则不会进入该内嵌的方法中<br>⇧F7 智能步入，断点所在行上有多个方法调用，会弹出进入哪个方法<br>⇧F8 跳出<br>⌥F9 运行到光标处，如果光标前有其他断点会进入到该断点<br>⌥F8 计算表达式（可以更改变量值使其生效）<br>⌘⌥R 恢复程序运行，如果该断点下面代码还有断点则停在下一个断点上<br>⌘F8 切换断点（若光标当前行有断点则取消断点，没有则加上断点）<br>⌘⇧F8 查看断点信息</p>
+<h2 id="Navigation-导航"><a href="#Navigation-导航" class="headerlink" title="Navigation 导航"></a>Navigation 导航</h2><p>⌘⇧O 查找所有类型文件、打开文件、打开目录，打开目录需要在输入的内容前面或后面加一个反斜杠/<br>⌘⌥O 前往指定的变量 / 方法<br>⌃← / ⌃→ 左右切换打开的编辑tab页<br>⎋ 从工具窗口进入代码文件窗口<br>⇧⎋ 隐藏当前或最后一个活动的窗口，且光标进入代码文件窗口<br>⌘⇧F4 关闭活动run/messages/find/… tab<br>⌘L 在当前文件跳转到某一行的指定处<br>⌘E 显示最近打开的文件记录列表<br>⌘⌥← / ⌘⌥→ 退回 / 前进到上一个操作的地方<br>⌘⇧⌫ 跳转到最后一个编辑的地方<br>⌥F1 显示当前文件选择目标弹出层，弹出层中有很多目标可以进行选择(如在代码编辑窗口可以选择显示该文件的Finder)<br>⌘B / ⌘ 鼠标点击 进入光标所在的方法/变量的接口或是定义处<br>⌘⌥B 跳转到实现处，在某个调用的方法名上使用会跳到具体的实现处，可以跳过接口<br>⌥ Space, ⌘Y 快速打开光标所在方法、类的定义<br>⌃⇧B 跳转到类型声明处<br>⌘U 前往当前光标所在方法的父类的方法 / 接口定义<br>⌃↓ / ⌃↑ 当前光标跳转到当前文件的前一个/后一个方法名位置<br>⌘] / ⌘[ 移动光标到当前所在代码的花括号开始/结束位置<br>F2 / ⇧F2 跳转到下一个/上一个突出错误或警告的位置<br>F4 / ⌘↓ 编辑/查看代码源<br>⌥ Home 显示到当前文件的导航条<br>F3选中文件/文件夹/代码行，添加/取消书签<br>⌥F3 选中文件/文件夹/代码行，使用助记符添加/取消书签<br>⌃0…⌃9 定位到对应数值的书签位置<br>⌘F3 显示所有书签</p>
+<h2 id="Refactoring-重构"><a href="#Refactoring-重构" class="headerlink" title="Refactoring 重构"></a>Refactoring 重构</h2><p>F5 复制文件到指定目录<br>F6 移动文件到指定目录<br>⌘⌫ 在文件上为安全删除文件，弹出确认框<br>⇧F6 重命名文件<br>⌘F6 更改签名<br>⌘⌥N 一致性<br>⌘⌥M 将选中的代码提取为方法<br>⌘⌥V 提取变量<br>⌘⌥F 提取字段<br>⌘⌥C 提取常量<br>⌘⌥P 提取参数</p>
+<h2 id="VCS-Local-History-版本控制-本地历史记录"><a href="#VCS-Local-History-版本控制-本地历史记录" class="headerlink" title="VCS/Local History 版本控制/本地历史记录"></a>VCS/Local History 版本控制/本地历史记录</h2><p>⌘K 提交代码到版本控制器<br>⌘T 从版本控制器更新代码<br>⌥⇧C 查看最近的变更记录<br>⌃C 快速弹出版本控制器操作面板</p>
+<h2 id="Live-Templates（动态代码模板）"><a href="#Live-Templates（动态代码模板）" class="headerlink" title="Live Templates（动态代码模板）"></a>Live Templates（动态代码模板）</h2><p>⌘⌥J 弹出模板选择窗口，将选定的代码使用动态模板包住<br>⌘J 插入自定义动态代码模板</p>
+<h2 id="General-通用"><a href="#General-通用" class="headerlink" title="General 通用"></a>General 通用</h2><p>⌘1…⌘9 打开相应编号的工具窗口<br>⌘S 保存所有<br>⌘⌥Y 同步、刷新<br>⌥⇧F 添加到收藏夹<br>⌥⇧I 检查当前文件与当前的配置文件<br>§⌃, ⌃` 快速切换当前的scheme（切换主题、代码样式等）<br>⌘, 打开IDEA系统设置<br>⌘; 打开项目结构对话框<br>⇧⌘A 查找动作（可设置相关选项）<br>⌃⇥ 编辑窗口标签和工具窗口之间切换（如果在切换的过程加按上delete，则是关闭对应选中的窗口）</p>
 
                 <hr>
 
@@ -281,14 +381,14 @@ PARTITIONS 3;
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2018/08/30/Linear Hash/" data-toggle="tooltip" data-placement="top"
-                           title="Linear Hash">&larr; Previous Post</a>
+                        <a href="/2018/08/23/Mac Octave/" data-toggle="tooltip" data-placement="top"
+                           title="Mac Octave安装">&larr; Previous Post</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2018/08/23/Mac Octave/" data-toggle="tooltip" data-placement="top"
-                           title="Mac Octave安装">Next Post &rarr;</a>
+                        <a href="/2018/08/22/vim/" data-toggle="tooltip" data-placement="top"
+                           title="vim">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -303,11 +403,8 @@ PARTITIONS 3;
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/Tags/#db"
-                           title="db">db</a>
-                        
-                        <a class="tag" href="/Tags/#mysql"
-                           title="mysql">mysql</a>
+                        <a class="tag" href="/Tags/#IDEA"
+                           title="IDEA">IDEA</a>
                         
                     </div>
                 </section>
@@ -345,7 +442,7 @@ PARTITIONS 3;
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#水平分区-Horizontal-Partitioning"><span class="toc-text">水平分区 Horizontal Partitioning</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RANGE分区"><span class="toc-text">RANGE分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LIST分区"><span class="toc-text">LIST分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HASH分区"><span class="toc-text">HASH分区</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#LINER-HASH线性哈希"><span class="toc-text">LINER HASH线性哈希</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#KEY分区"><span class="toc-text">KEY分区</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#垂直分区-Vertical-Partitioning"><span class="toc-text">垂直分区 Vertical Partitioning</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Mac键盘符号和修饰键说明"><span class="toc-text">Mac键盘符号和修饰键说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用快捷键"><span class="toc-text">常用快捷键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Editing-编辑"><span class="toc-text">Editing 编辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Search-Replace-查询-替换"><span class="toc-text">Search/Replace 查询/替换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Usage-Search-使用查询"><span class="toc-text">Usage Search 使用查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Compile-and-Run-编译和运行"><span class="toc-text">Compile and Run 编译和运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Debugging-调试"><span class="toc-text">Debugging 调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Navigation-导航"><span class="toc-text">Navigation 导航</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Refactoring-重构"><span class="toc-text">Refactoring 重构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VCS-Local-History-版本控制-本地历史记录"><span class="toc-text">VCS/Local History 版本控制/本地历史记录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Live-Templates（动态代码模板）"><span class="toc-text">Live Templates（动态代码模板）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#General-通用"><span class="toc-text">General 通用</span></a></li></ol>
                 </div>
             </div>
         </div>
