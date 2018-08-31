@@ -234,7 +234,7 @@ insert(i) {
 
     insert(i)
 }
-</code></pre><h2 id="示例如下"><a href="#示例如下" class="headerlink" title="示例如下"></a>示例如下</h2><p>P=5，mod=4，hash表新增元素24，bucket(0)位置已满，需要进行扩容</p>
+</code></pre><h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>P=5，mod=4，hash表新增元素24，bucket(0)位置已满，需要进行扩容</p>
 <h3 id="hash表初始情况"><a href="#hash表初始情况" class="headerlink" title="hash表初始情况"></a>hash表初始情况</h3><table>
 <thead>
 <tr>
@@ -441,27 +441,30 @@ insert(i) {
 </tr>
 </tbody>
 </table>
-<h2 id="HashMap实际应用"><a href="#HashMap实际应用" class="headerlink" title="HashMap实际应用"></a>HashMap实际应用</h2><p>了解线性哈希算法时，联想到HashMap的实现，重新看了下JDK1.8(与1.6、1.7实现不太一样)的源码，<a href="http://yikun.github.io/2015/04/01/Java-HashMap工作原理及实现/" target="_blank" rel="noopener">http://yikun.github.io/2015/04/01/Java-HashMap工作原理及实现/</a> 这篇文章讲的很详细，可以了解的更快。</p>
-<p>HashMap#resize()的过程，直接将bucket的容量扩充到两倍（8-&gt;16-&gt;32-&gt;…），将原有bucket的元素重新计算哈希放到新的bucket中去，由于扩容的长度都是2的幂次方，所以元素要么在原bucket位置，要么在原位置的2次幂位置。<br>because we are using power-of-two expansion, the elements from each bin must either stay at <em>same index</em>, or move with <em>a power of two offset</em> in the new table.<br>例如，长度为8，以前在5，扩容之后可能在5，或者13。bucket数量为pow(2,n)，扩容后的数量为pow(2, n+1)，对于原bucket(i)上的元素来说，扩容后的可能位置为(i, i+pow(2,n))。<br>设计中比较巧妙的地方在于两点：</p>
+<h2 id="HashMap实际应用"><a href="#HashMap实际应用" class="headerlink" title="HashMap实际应用"></a>HashMap实际应用</h2><p>了解线性哈希算法时，联想到HashMap的实现，重新看了下JDK1.8的源码（与1.6、1.7实现不太一样），<a href="http://yikun.github.io/2015/04/01/Java-HashMap工作原理及实现/" target="_blank" rel="noopener">http://yikun.github.io/2015/04/01/Java-HashMap工作原理及实现/</a> 这篇文章讲的很详细，可以了解的更快。</p>
+<p>HashMap#resize()的过程，直接将bucket的容量扩充到两倍（8-&gt;16-&gt;32-&gt;…），将原有bucket的元素重新计算哈希放到新的bucket中去，由于扩容的长度都是2的幂，所以元素要么在原bucket位置，要么在原位置挪动2次幂。</p>
+<p>because we are using power-of-two expansion, the elements from each bin must either stay at <strong>same index</strong>, or move with <strong>a power of two offset</strong> in the new table.</p>
+<p>例如，长度为8，以前在5，扩容之后可能在5，或者13。bucket数量为pow(2,n)，扩容后的数量为pow(2, n+1)，对于原bucket(i)上的元素来说，扩容后的可能位置为(i, i+pow(2,n))。</p>
+<p>设计中比较巧妙的地方在于两点：</p>
 <ol>
-<li><p>哈希函数不是采用的十进制的%，由于mod值（长度）是2的幂，因此采用的是 <em>&amp;</em> 运算。</p>
-<p> (n - 1) &amp; hash</p>
-</li>
+<li><p>哈希函数不是采用的十进制的%，由于mod值（长度）是2的幂，因此采用的是 <strong>&amp;</strong> 运算。</p>
+<pre><code>(n - 1) &amp; hash
+</code></pre></li>
 <li><p>移动位置的时候不需要重新计算hash，比如原来长度是8，扩容后变为16，对应的n二进制分别为，1000、10000即相当于多出来一个高位bit。因此，只需要看新增的bit位置是0还是1，0的话位置保持不变。</p>
-<p> if ((e.hash &amp; oldCap) == 0) {</p>
-<pre><code>if (loTail == null)
-    loHead = e;
-else
-    loTail.next = e;
-loTail = e;
-</code></pre><p> } else {</p>
-<pre><code>if (hiTail == null)
-    hiHead = e;
-else
-    hiTail.next = e;
-hiTail = e;
-</code></pre><p> }</p>
-</li>
+<pre><code>if ((e.hash &amp; oldCap) == 0) {
+    if (loTail == null)
+        loHead = e;
+    else
+        loTail.next = e;
+    loTail = e;
+} else {
+    if (hiTail == null)
+        hiHead = e;
+    else
+        hiTail.next = e;
+    hiTail = e;
+}
+</code></pre></li>
 </ol>
 
                 <hr>
@@ -527,7 +530,7 @@ hiTail = e;
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#示例如下"><span class="toc-text">示例如下</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#hash表初始情况"><span class="toc-text">hash表初始情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩容完成后hash表情况"><span class="toc-text">扩容完成后hash表情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插入后的hash表情况"><span class="toc-text">插入后的hash表情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩容到3号时hash表情况，需要新增元素48"><span class="toc-text">扩容到3号时hash表情况，需要新增元素48</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插入后的hash表情况-1"><span class="toc-text">插入后的hash表情况</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HashMap实际应用"><span class="toc-text">HashMap实际应用</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#示例"><span class="toc-text">示例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#hash表初始情况"><span class="toc-text">hash表初始情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩容完成后hash表情况"><span class="toc-text">扩容完成后hash表情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插入后的hash表情况"><span class="toc-text">插入后的hash表情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩容到3号时hash表情况，需要新增元素48"><span class="toc-text">扩容到3号时hash表情况，需要新增元素48</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插入后的hash表情况-1"><span class="toc-text">插入后的hash表情况</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HashMap实际应用"><span class="toc-text">HashMap实际应用</span></a></li></ol>
                 </div>
             </div>
         </div>

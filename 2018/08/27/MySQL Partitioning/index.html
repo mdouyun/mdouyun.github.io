@@ -252,7 +252,7 @@ CREATE TABLE employees (
 )
 PARTITION BY HASH(store_id)
 PARTITIONS 4;
-</code></pre><h4 id="LINER-HASH线性哈希"><a href="#LINER-HASH线性哈希" class="headerlink" title="LINER HASH线性哈希"></a>LINER HASH线性哈希</h4><p>线性哈希功能使用的一个线性的2的幂（powers-of-two）运算法则，而常规哈希使用的是求哈希函数值的模数。<br>算法简述：</p>
+</code></pre><h4 id="LINER-HASH线性哈希"><a href="#LINER-HASH线性哈希" class="headerlink" title="LINER HASH线性哈希"></a>LINER HASH线性哈希</h4><p>线性哈希功能使用的一个线性的2的幂（powers-of-two）运算法则，而常规哈希使用的是求哈希函数值的模数。<br>算法简述：<a href="http://mdouyun.com/2018/08/30/Linear%20Hash/" target="_blank" rel="noopener">点击这里了解</a></p>
 <pre><code>CREATE TABLE employees (
     id INT NOT NULL,
     fname VARCHAR(30),
